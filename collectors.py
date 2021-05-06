@@ -31,9 +31,12 @@ class BinanceCollector(Collector):
         start_date = start_date or self.start_date
         end_date = end_date or self.end_date
 
-        klines = self.client.get_historical_klines(symbol, interval, self.start_date.strftime("%d %b %Y %H:%M:%S"), self.end_date.strftime("%d %b %Y %H:%M:%S"), 1000)
+        klines = self.client.get_historical_klines(symbol, interval, start_date.strftime("%d %b %Y %H:%M:%S"), end_date.strftime("%d %b %Y %H:%M:%S"), 1000)
         data = pd.DataFrame(klines, columns = self.columns)
         data['Date'] = pd.to_datetime(data['Date'], unit='ms')
+        for column in self.columns[1:]:
+            data[column] = pd.to_numeric(data[column])
+        data.sort_values(by=['Date'], inplace=True, ascending=False)
         return data
     
 class YahooCollector(Collector):
@@ -47,4 +50,5 @@ class YahooCollector(Collector):
         
         self.client = yahoo.Ticker(symbol)
         data = self.client.history(start = start_date, end = end_date, interval=interval)
+        data.sort_values(by=['Date'], inplace=True, ascending=False)
         return data
