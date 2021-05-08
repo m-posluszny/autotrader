@@ -1,5 +1,5 @@
 from collectors import BinanceCollector, YahooCollector
-from moving_average import MovingAverage
+from moving_averages import MovingAverage
 import json
 import plotly.graph_objects as go
 import datetime
