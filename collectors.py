@@ -36,7 +36,7 @@ class BinanceCollector(Collector):
         data['Date'] = pd.to_datetime(data['Date'], unit='ms')
         for column in self.columns[1:]:
             data[column] = pd.to_numeric(data[column])
-        data.sort_values(by=['Date'], inplace=True, ascending=False)
+        data.sort_values(by=['Date'], inplace=True, ascending=True)
         return data
     
 class YahooCollector(Collector):
@@ -50,5 +50,5 @@ class YahooCollector(Collector):
         
         self.client = yahoo.Ticker(symbol)
         data = self.client.history(start = start_date, end = end_date, interval=interval)
-        data.sort_values(by=['Date'], inplace=True, ascending=False)
+        data.sort_values(by=['Date'], inplace=True, ascending=True)
         return data
