@@ -4,7 +4,7 @@ import json
 import plotly.graph_objects as go
 import datetime
 
-def generate_candlesticks(data):
+def generate_candlesticks(data,name="generic_plot"):
     
     fig = go.Figure()
     fig.add_trace(go.Candlestick(x=data['Date'],
@@ -21,7 +21,7 @@ def generate_candlesticks(data):
                 y=data[col],line_shape='spline'))
 
     fig.update_layout(barmode='group', bargap=0.00,bargroupgap=0.0)
-    fig.show()
+    fig.write_image(f"{name}.pdf")
 
 def main():
     config = json.load(open("./config.json"))
